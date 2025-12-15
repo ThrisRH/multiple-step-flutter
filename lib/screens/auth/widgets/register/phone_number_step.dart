@@ -1,0 +1,101 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:test/core/theme/colors.dart';
+import 'package:test/screens/auth/register.dart';
+import 'package:test/widgets/buttons/index.dart';
+import 'package:test/widgets/common/error_message.dart';
+import 'package:test/widgets/inputs/index.dart';
+
+class PhoneNumberStep extends StatelessWidget {
+  final Function(String) onChanged;
+
+  PhoneNumberStep({super.key, required this.onChanged});
+  final RegisterStepController controller = Get.find<RegisterStepController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 24,
+      children: [
+        const Text(
+          "Đăng ký số điện thoại",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF2D4769),
+          ),
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 12,
+            children: [
+              NormalInput(
+                label: "Số điện thoại",
+                hint: "Nhập số điện thoại",
+                controller: controller.phoneNumberController,
+                onChanged: onChanged,
+              ),
+
+              // Error warning
+              ErrorText(controller.errorMessage),
+
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 12,
+                children: [
+                  Obx(
+                    () => Checkbox(
+                      value: controller.agreeTerm.value,
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      visualDensity: VisualDensity.compact,
+                      onChanged: (val) =>
+                          controller.agreeTerm.value = val ?? false,
+                    ),
+                  ),
+                  Expanded(
+                    child: RichText(
+                      softWrap: true,
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Tôi đồng ý với ",
+                            style: TextStyle(color: AppColors.black),
+                          ),
+                          TextSpan(
+                            text: "Điều khoản sử dụng ",
+                            style: TextStyle(color: AppColors.darkBlue),
+                          ),
+                          TextSpan(
+                            text: "và ",
+                            style: TextStyle(color: AppColors.black),
+                          ),
+                          TextSpan(
+                            text: "Chính sách bảo mật ",
+                            style: TextStyle(color: AppColors.darkBlue),
+                          ),
+                          TextSpan(
+                            text: "của ngân hàng",
+                            style: TextStyle(color: AppColors.black),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+
+        AppButton(
+          onTap: () {
+            controller.nextStep();
+          },
+          label: "Đăng ký",
+        ),
+      ],
+    );
+  }
+}
