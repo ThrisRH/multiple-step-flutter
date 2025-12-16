@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:test/core/theme/colors.dart';
 import 'package:test/screens/auth/register.dart';
@@ -36,6 +37,8 @@ class PhoneNumberStep extends StatelessWidget {
                 hint: "Nhập số điện thoại",
                 controller: controller.phoneNumberController,
                 onChanged: onChanged,
+                maxLength: 12,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               ),
 
               // Error warning
@@ -52,6 +55,14 @@ class PhoneNumberStep extends StatelessWidget {
                       visualDensity: VisualDensity.compact,
                       onChanged: (val) =>
                           controller.agreeTerm.value = val ?? false,
+                      fillColor: WidgetStateProperty.resolveWith<Color>((
+                        Set<WidgetState> states,
+                      ) {
+                        if (states.contains(WidgetState.selected)) {
+                          return AppColors.primary;
+                        }
+                        return Colors.transparent;
+                      }),
                     ),
                   ),
                   Expanded(

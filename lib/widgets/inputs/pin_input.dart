@@ -4,10 +4,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:test/core/theme/colors.dart';
 import 'package:test/screens/auth/register.dart';
 
+// ignore: constant_identifier_names
 const TEMP_OTP = "323238";
 
 class OTPController extends GetxController {
@@ -17,26 +17,42 @@ class OTPController extends GetxController {
   final canResend = false.obs;
 
   final isError = false.obs;
+  final errorMessage = "".obs;
   final canNextStep = false.obs;
+
+  final failedCount = 0.obs;
+  final lockedTime = 0.obs;
 
   late List<TextEditingController> controllers;
   late List<FocusNode> focusNodes;
 
-  Timer? _timer;
+  Timer? resendTimer;
+  Timer? lockTimer;
 
   @override
   void onInit() {
     super.onInit();
+
+    ever(canNextStep, (_) {
+      if (canNextStep.value) {
+        Get.find<RegisterStepController>().nextStep();
+      }
+    });
+
     controllers = List.generate(length, (_) => TextEditingController());
     focusNodes = List.generate(length, (_) => FocusNode());
+  }
+
+  String getOtp() {
+    return controllers.map((c) => c.text).join();
   }
 
   void startCountdown() {
     canResend.value = false;
     secondsLeft.value = 60;
 
-    _timer?.cancel();
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    resendTimer?.cancel();
+    resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (secondsLeft.value == 0) {
         canResend.value = true;
         timer.cancel();
@@ -46,9 +62,26 @@ class OTPController extends GetxController {
     });
   }
 
+  void startLockedCountdown() {
+    canResend.value = false;
+    lockedTime.value = 120;
+
+    lockTimer?.cancel();
+    lockTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (lockedTime.value == 0) {
+        canResend.value = true;
+        failedCount.value = 0;
+        timer.cancel();
+      } else {
+        lockedTime.value--;
+      }
+    });
+  }
+
   void resendOtp() {
-    print("Resend OTP");
-    startCountdown();
+    if (secondsLeft.value <= 0 && lockedTime.value <= 0) {
+      startCountdown();
+    }
   }
 
   void onChanged(int index, String value) {
@@ -56,24 +89,29 @@ class OTPController extends GetxController {
       focusNodes[index + 1].requestFocus();
     }
 
-    if (getOtp().length == length) {
-      if (getOtp() == TEMP_OTP) {
-        isError.value = false;
-        canNextStep.value = true;
-      } else {
-        isError.value = true;
-      }
-    }
-  }
+    final otp = getOtp();
 
-  void onBackspace(int index) {
-    if (controllers[index].text.isEmpty && index > 0) {
-      focusNodes[index - 1].requestFocus();
+    if (otp.length < length) {
+      isError.value = false;
+      canNextStep.value = false;
+      return;
     }
-  }
 
-  String getOtp() {
-    return controllers.map((c) => c.text).join();
+    // Validate
+    if (failedCount.value >= 5) {
+      startLockedCountdown();
+      errorMessage.value =
+          "Bạn đã nhập sai mã OTP quá nhiều lần. Vui lòng thử lại sau.";
+      return;
+    } else if (otp == TEMP_OTP) {
+      isError.value = false;
+      canNextStep.value = true;
+    } else {
+      isError.value = true;
+      canNextStep.value = false;
+      failedCount.value++;
+      clear();
+    }
   }
 
   void clear() {
@@ -107,41 +145,39 @@ class OtpInput extends StatelessWidget {
       children: List.generate(controller.length, (index) {
         return SizedBox(
           width: 48,
-          height: 56,
-          child: KeyboardListener(
-            focusNode: FocusNode(),
-            onKeyEvent: (event) {
-              if (event is KeyDownEvent &&
-                  event.logicalKey == LogicalKeyboardKey.backspace) {
-                controller.onBackspace(index);
-              }
-            },
-            child: Obx(
-              () => TextField(
-                controller: controller.controllers[index],
-                focusNode: controller.focusNodes[index],
-                maxLength: 1,
-                textAlign: TextAlign.center,
-                keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                decoration: InputDecoration(
-                  counterText: '',
-                  border: buildBorder(AppColors.darkBlue),
-
-                  focusedBorder: buildBorder(
-                    controller.isError.value
-                        ? AppColors.error
-                        : AppColors.primary,
-                  ),
-
-                  enabledBorder: buildBorder(
-                    controller.isError.value
-                        ? AppColors.error
-                        : AppColors.labelGrey,
-                  ),
+          child: Obx(
+            () => TextField(
+              controller: controller.controllers[index],
+              focusNode: controller.focusNodes[index],
+              maxLength: 1,
+              textAlign: TextAlign.center,
+              textAlignVertical: TextAlignVertical.center,
+              keyboardType: TextInputType.number,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              style: const TextStyle(fontSize: 14),
+              decoration: InputDecoration(
+                counterText: '',
+                isDense: true,
+                enabledBorder: buildBorder(
+                  controller.isError.value
+                      ? AppColors.error
+                      : AppColors.labelGrey,
                 ),
-                onChanged: (value) => controller.onChanged(index, value),
+                focusedBorder: buildBorder(
+                  controller.isError.value
+                      ? AppColors.error
+                      : AppColors.primary,
+                ),
               ),
+              onChanged: (value) {
+                if (value.isNotEmpty && index < controller.length - 1) {
+                  controller.focusNodes[index + 1].requestFocus();
+                } else if (value.isEmpty && index > 0) {
+                  controller.focusNodes[index - 1].requestFocus();
+                }
+
+                controller.onChanged(index, value);
+              },
             ),
           ),
         );

@@ -10,7 +10,7 @@ import 'package:test/screens/auth/widgets/register/ocr_info_step.dart';
 import 'package:test/screens/auth/widgets/register/otp_step.dart';
 import 'package:test/screens/auth/widgets/register/password_step.dart';
 import 'package:test/screens/auth/widgets/register/phone_number_step.dart';
-import 'package:test/widgets/buttons/index.dart';
+import 'package:test/screens/auth/widgets/register/success_step.dart';
 import 'package:test/widgets/inputs/pin_input.dart';
 
 class RegisterStepController extends GetxController {
@@ -40,8 +40,9 @@ class RegisterStepController extends GetxController {
       validatePhone,
       validatePassword,
       validateImage,
-      validatedOTP,
       validateInfo,
+      validatedOTP,
+      validateSuccess,
     ];
   }
 
@@ -57,8 +58,6 @@ class RegisterStepController extends GetxController {
 
   void nextStep() {
     if (validators[index.value]()) {
-      print("ok");
-
       errorMessage.value = "";
       index.value++;
       pageController.nextPage(
@@ -119,6 +118,7 @@ class RegisterStepController extends GetxController {
     return true;
   }
 
+  // Check image
   bool validateImage() {
     if (ocrScannerController.ocrResult.value == null) {
       errorMessage.value =
@@ -136,6 +136,10 @@ class RegisterStepController extends GetxController {
   }
 
   bool validatedOTP() {
+    return true;
+  }
+
+  bool validateSuccess() {
     return true;
   }
 
@@ -183,9 +187,11 @@ class Register extends StatelessWidget {
         );
       }),
 
+      OcrInfoStep(),
+
       OTPStep(),
 
-      OcrInfoStep(),
+      SuccessStep(),
     ];
 
     return Scaffold(
@@ -201,6 +207,19 @@ class Register extends StatelessWidget {
                 child: Column(
                   spacing: 24,
                   children: [
+                    if (registerStepController.index.value <
+                        stepsList.length - 1)
+                      LinearProgressIndicator(
+                        value:
+                            ((registerStepController.index.value + 1) /
+                                    stepsList.length)
+                                .clamp(0.0, 1.0),
+
+                        color: AppColors.primary,
+                        minHeight: 6,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+
                     Expanded(
                       child: PageView(
                         controller: registerStepController.pageController,
@@ -208,13 +227,6 @@ class Register extends StatelessWidget {
                         children: stepsList,
                       ),
                     ),
-
-                    // AppButton(
-                    //   onTap: () {
-                    //     registerStepController.nextStep();
-                    //   },
-                    //   label: "Tiếp theo",
-                    // ),
                   ],
                 ),
               ),

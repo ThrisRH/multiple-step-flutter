@@ -10,6 +10,7 @@ abstract class BaseInput extends StatelessWidget {
   final Function(String) onChanged;
   final TextInputType keyboardType;
   final List<TextInputFormatter>? inputFormatters;
+  final int? maxLength;
   final bool readOnly;
   final bool isDisabled;
 
@@ -23,6 +24,7 @@ abstract class BaseInput extends StatelessWidget {
     required this.isDisabled,
     this.inputFormatters,
     this.controller,
+    this.maxLength,
   });
 
   Widget buildInputField(BuildContext context);
@@ -65,6 +67,8 @@ class NormalInput extends BaseInput {
     super.readOnly = false,
     super.isDisabled = false,
     super.controller,
+    super.maxLength,
+    super.inputFormatters,
   });
 
   @override
@@ -79,11 +83,16 @@ class NormalInput extends BaseInput {
       ),
 
       child: TextField(
+        inputFormatters: inputFormatters,
         controller: controller,
         onChanged: onChanged,
         style: TextStyle(fontSize: 14, height: 24 / 20),
         readOnly: isDisabled,
+        maxLength: maxLength,
+
         decoration: InputDecoration(
+          counterText: '',
+          isDense: true,
           border: InputBorder.none,
           hintText: hint,
           hintStyle: TextStyle(

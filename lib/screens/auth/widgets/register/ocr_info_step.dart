@@ -4,7 +4,14 @@ import 'package:test/controller/ocr_controller.dart';
 import 'package:test/core/theme/colors.dart';
 import 'package:test/screens/auth/register.dart';
 import 'package:test/widgets/buttons/index.dart';
+import 'package:test/widgets/common/dot.dart';
 import 'package:test/widgets/inputs/index.dart';
+
+// ignore: constant_identifier_names
+const CONFIRM_INFO_DISCLAIMER = [
+  "Vui lòng kiểm tra lại toàn bộ thông tin cá nhân trước khi xác nhận.",
+  "Mọi sai lệch hoặc thiếu chính xác trong thông tin do khách hàng cung cấp sẽ do khách hàng tự chịu trách nhiệm.",
+];
 
 class OcrInfoStep extends StatelessWidget {
   OcrInfoStep({super.key});
@@ -90,6 +97,29 @@ class OcrInfoStep extends StatelessWidget {
                   label: "Địa chỉ thường trú",
                   hint: "Nhập địa chỉ thường trú",
                   onChanged: (val) => {},
+                ),
+
+                Column(
+                  spacing: 6,
+                  children: CONFIRM_INFO_DISCLAIMER.map((item) {
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 12,
+                      children: [
+                        Dot(size: 4, color: AppColors.inactive),
+                        Expanded(
+                          child: Text(
+                            item,
+                            softWrap: true,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: AppColors.darkBlue,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }).toList(),
                 ),
               ],
             ),

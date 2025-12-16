@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:test/core/theme/colors.dart';
 import 'package:test/screens/auth/register.dart';
 import 'package:test/widgets/buttons/index.dart';
+import 'package:test/widgets/common/dot.dart';
 import 'package:test/widgets/common/error_message.dart';
 import 'package:test/widgets/inputs/index.dart';
 
@@ -75,14 +76,9 @@ class PasswordStep extends StatelessWidget {
                 children: PASSWORD_RULE.map((rule) {
                   return Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 12,
                     children: [
-                      const Text(
-                        "• ",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: AppColors.labelGrey,
-                        ),
-                      ),
+                      Dot(size: 4, color: AppColors.inactive),
                       Expanded(
                         child: Text(
                           rule,
