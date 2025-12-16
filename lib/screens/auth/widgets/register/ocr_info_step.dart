@@ -129,7 +129,7 @@ class OcrInfoStep extends StatelessWidget {
             onTap: () {
               registerStepController.nextStep();
             },
-            label: "Mọi thông tin hoàn toàn đúng",
+            label: "Mọi thông tin hoàn toàn đúng.",
           ),
         ],
       );
