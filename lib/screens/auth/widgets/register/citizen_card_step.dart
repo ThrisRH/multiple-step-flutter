@@ -4,8 +4,8 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:test/controller/ocr_controller.dart';
+import 'package:test/controller/register_controller.dart';
 import 'package:test/core/theme/colors.dart';
-import 'package:test/screens/auth/register.dart';
 import 'package:test/widgets/buttons/index.dart';
 import 'package:test/widgets/common/error_message.dart';
 
@@ -42,27 +42,6 @@ class CitizenCardStep extends StatelessWidget {
 
       return Column(
         children: [
-          Row(
-            spacing: 24,
-            children: [
-              GestureDetector(
-                onTap: registerStepController.prevStep,
-                child: Icon(
-                  Icons.arrow_back_ios_new,
-                  color: AppColors.darkBlue,
-                ),
-              ),
-              const Text(
-                "Xác minh danh tính",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.darkBlue,
-                ),
-              ),
-            ],
-          ),
-
           SizedBox(height: 24),
 
           Expanded(

@@ -18,6 +18,43 @@ class OCRResponse {
   }
 }
 
+class RegisterRequest {
+  final String phone;
+  final String password;
+  final CccdData data;
+
+  RegisterRequest({
+    required this.phone,
+    required this.password,
+    required this.data,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      "phone": phone,
+      "password": password,
+      "data": {
+        "id": data.id,
+        "name": data.name,
+        "dob": data.dob,
+        "sex": data.sex,
+        "nationality": data.nationality,
+        "home": data.home,
+        "address": data.address,
+        "doe": data.doe,
+      },
+    };
+  }
+
+  factory RegisterRequest.fromJson(Map<String, dynamic> json) {
+    return RegisterRequest(
+      phone: json['phone'] ?? "",
+      password: json['password'] ?? "",
+      data: CccdData.fromJson(json['data']),
+    );
+  }
+}
+
 class CccdData {
   final String id;
   final String name;

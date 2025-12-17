@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:test/controller/otp_controller.dart';
+import 'package:test/controller/register_controller.dart';
 import 'package:test/core/theme/colors.dart';
-import 'package:test/screens/auth/register.dart';
 import 'package:test/widgets/common/error_message.dart';
 import 'package:test/widgets/inputs/pin_input.dart';
 
@@ -17,24 +18,6 @@ class OTPStep extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 24,
       children: [
-        Row(
-          spacing: 24,
-          children: [
-            GestureDetector(
-              onTap: registerStepController.prevStep,
-              child: Icon(Icons.arrow_back_ios_new, color: AppColors.darkBlue),
-            ),
-            const Text(
-              "Xác thực OTP",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: AppColors.darkBlue,
-              ),
-            ),
-          ],
-        ),
-
         RichText(
           text: TextSpan(
             children: [

@@ -17,7 +17,7 @@ class AppColors {
   // status
   static const success = Color(0xFF00B400);
   static const error = Color(0xFFFF0033);
-  static const inactive = Color(0xFF5A687C);
+  static const inactive = Color(0xFFD1D1D6);
   static const inputDisable = Color(0xFFEBEBEB);
   static const warning = Color(0xFFE5C100);
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:test/controller/register_controller.dart';
 import 'package:test/core/theme/colors.dart';
-import 'package:test/screens/auth/register.dart';
 import 'package:test/widgets/buttons/index.dart';
 import 'package:test/widgets/common/error_message.dart';
 import 'package:test/widgets/inputs/index.dart';
@@ -19,14 +19,6 @@ class PhoneNumberStep extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 24,
       children: [
-        const Text(
-          "Đăng ký số điện thoại",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: Color(0xFF2D4769),
-          ),
-        ),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,12 +92,17 @@ class PhoneNumberStep extends StatelessWidget {
           ),
         ),
 
-        AppButton(
-          onTap: () {
-            controller.nextStep();
-          },
-          label: "Đăng ký",
-        ),
+        Obx(() {
+          return AppButton(
+            disabled:
+                controller.phoneNumber.value == "" ||
+                !controller.agreeTerm.value,
+            onTap: () {
+              controller.nextStep();
+            },
+            label: "Đăng ký",
+          );
+        }),
       ],
     );
   }

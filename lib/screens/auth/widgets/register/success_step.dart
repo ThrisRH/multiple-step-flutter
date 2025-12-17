@@ -1,38 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:test/controller/ocr_controller.dart';
+import 'package:test/controller/otp_controller.dart';
+import 'package:test/controller/register_controller.dart';
 import 'package:test/core/theme/colors.dart';
-import 'package:test/screens/auth/register.dart';
 import 'package:test/widgets/buttons/index.dart';
-import 'package:test/widgets/inputs/index.dart';
 
 class SuccessStep extends StatelessWidget {
   SuccessStep({super.key});
   final OCRScannerController ocrScannerController =
       Get.find<OCRScannerController>();
+  final OTPController otpController = Get.find<OTPController>();
   final RegisterStepController registerStepController =
       Get.find<RegisterStepController>();
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (ocrScannerController.ocrResult.value == null) return Container();
-      final info = ocrScannerController.ocrResult.value!;
-      final phoneNumber = registerStepController.phoneNumberController.text;
-
+      if (ocrScannerController.ocrResult.value == null ||
+          registerStepController.registerRequestData.value == null) {
+        return Center(child: CircularProgressIndicator());
+      }
+      final info = registerStepController.registerRequestData.value;
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: 24,
         children: [
-          const Text(
-            "Đăng ký hoàn tất",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: AppColors.darkBlue,
-            ),
-          ),
-
           Expanded(
             child: Column(
               spacing: 12,
@@ -50,7 +43,7 @@ class SuccessStep extends StatelessWidget {
                     spacing: 12,
                     children: [
                       Text(
-                        "Thông tin cá nhân",
+                        "Thông tin đã đăng ký",
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -58,11 +51,16 @@ class SuccessStep extends StatelessWidget {
                         ),
                       ),
 
+                      _buildInfoRow("Số điện thoại", info!.phone),
+                      _buildInfoRow("Mật khẩu", info.password),
                       _buildInfoRow("Họ và tên", info.data.name),
                       _buildInfoRow("Ngày sinh", info.data.dob),
+                      _buildInfoRow("Địa chỉ thường trú", info.data.address),
+                      _buildInfoRow("Nguyên quán", info.data.home),
+                      _buildInfoRow("Giới tính", info.data.sex),
+                      _buildInfoRow("Quốc tịch", info.data.nationality),
                       _buildInfoRow("Số CCCD/CMND", info.data.id),
                       _buildInfoRow("Ngày hết hạn", info.data.doe),
-                      _buildInfoRow("Địa chỉ thường trú", info.data.address),
                     ],
                   ),
                 ),
@@ -103,8 +101,8 @@ class SuccessStep extends StatelessWidget {
 
           AppButton(
             onTap: () {
-              // Có thể navigate về màn hình chính hoặc login
-              Get.back();
+              otpController.reset();
+              registerStepController.resetToPhoneNumberStep();
             },
             label: "Bắt đầu sử dụng",
           ),
@@ -127,6 +125,7 @@ class SuccessStep extends StatelessWidget {
         Expanded(
           child: Text(
             value,
+            textAlign: TextAlign.end,
             style: TextStyle(fontSize: 14, color: AppColors.black),
           ),
         ),

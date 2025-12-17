@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:test/controller/register_controller.dart';
 import 'package:test/core/theme/colors.dart';
-import 'package:test/screens/auth/register.dart';
-import 'package:test/widgets/buttons/index.dart';
 import 'package:test/widgets/common/dot.dart';
 import 'package:test/widgets/common/error_message.dart';
 import 'package:test/widgets/inputs/index.dart';
+import 'package:test/widgets/layout/multiple_form/action.dart';
 
 // ignore: constant_identifier_names
 const PASSWORD_RULE = [
@@ -31,23 +31,6 @@ class PasswordStep extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 24,
       children: [
-        Row(
-          spacing: 24,
-          children: [
-            GestureDetector(
-              onTap: controller.prevStep,
-              child: Icon(Icons.arrow_back_ios_new, color: AppColors.darkBlue),
-            ),
-            const Text(
-              "Tạo mật khẩu",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: AppColors.darkBlue,
-              ),
-            ),
-          ],
-        ),
         Expanded(
           child: Column(
             spacing: 12,
@@ -96,11 +79,15 @@ class PasswordStep extends StatelessWidget {
           ),
         ),
 
-        AppButton(
-          onTap: () {
-            controller.nextStep();
-          },
-          label: "Tạo mật khẩu",
+        Obx(
+          () => ActionWrapper(
+            onBack: controller.prevStep,
+            onNext: controller.nextStep,
+            canNext:
+                (controller.password.value != "" &&
+                controller.confirmPassword.value != ""),
+            label: "Tạo mật khẩu",
+          ),
         ),
       ],
     );
