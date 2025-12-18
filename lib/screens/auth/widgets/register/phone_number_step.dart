@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:test/controller/register_controller.dart';
 import 'package:test/core/theme/colors.dart';
+import 'package:test/screens/permistion_manager.dart';
 import 'package:test/widgets/buttons/index.dart';
 import 'package:test/widgets/common/error_message.dart';
 import 'package:test/widgets/inputs/index.dart';
@@ -93,14 +94,29 @@ class PhoneNumberStep extends StatelessWidget {
         ),
 
         Obx(() {
-          return AppButton(
-            disabled:
-                controller.phoneNumber.value == "" ||
-                !controller.agreeTerm.value,
-            onTap: () {
-              controller.nextStep();
-            },
-            label: "Đăng ký",
+          return Column(
+            children: [
+              AppButton(
+                disabled:
+                    controller.phoneNumber.value == "" ||
+                    !controller.agreeTerm.value,
+                onTap: () {
+                  controller.nextStep();
+                },
+                label: "Đăng ký",
+              ),
+
+              TextButton(
+                onPressed: () => Get.offAll(
+                  PermissionScreen(),
+                  transition: Transition.noTransition,
+                ),
+                child: Text(
+                  "Trở về",
+                  style: TextStyle(color: AppColors.primary),
+                ),
+              ),
+            ],
           );
         }),
       ],

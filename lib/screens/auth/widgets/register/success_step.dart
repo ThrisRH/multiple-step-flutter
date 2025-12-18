@@ -6,8 +6,6 @@ import 'package:test/controller/register_controller.dart';
 import 'package:test/core/theme/colors.dart';
 import 'package:test/widgets/buttons/index.dart';
 
-class PermissionController extends GetxController {}
-
 class SuccessStep extends StatelessWidget {
   SuccessStep({super.key});
   final OCRScannerController ocrScannerController =

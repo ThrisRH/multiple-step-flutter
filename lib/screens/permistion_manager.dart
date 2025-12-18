@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:test/core/theme/colors.dart';
+import 'package:test/screens/auth/register.dart';
+import 'package:test/widgets/buttons/index.dart';
 
 class PermissionScreen extends StatelessWidget {
   const PermissionScreen({super.key});
@@ -18,7 +21,7 @@ class PermissionScreen extends StatelessWidget {
           debugPrint("Permission denied");
         }
       } else {
-        debugPrint("Permission denied");
+        openAppSettings();
       }
     }
 
@@ -46,6 +49,28 @@ class PermissionScreen extends StatelessWidget {
             title: Text("Location Permission"),
             leading: Icon(Icons.location_on_rounded),
             onTap: () => requestPermission(permission: Permission.location),
+          ),
+          ListTile(
+            title: Text("Notification Permission"),
+            leading: Icon(Icons.notifications_active),
+            onTap: () => requestPermission(permission: Permission.notification),
+          ),
+          ListTile(
+            title: Text("Photo Permission"),
+            leading: Icon(Icons.photo),
+            onTap: () => requestPermission(permission: Permission.photos),
+          ),
+
+          Spacer(),
+          Container(
+            margin: EdgeInsets.only(bottom: 24),
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            height: 48,
+            child: AppButton(
+              onTap: () =>
+                  Get.to(Register(), transition: Transition.noTransition),
+              label: "Đăng ký tài khoản",
+            ),
           ),
         ],
       ),
