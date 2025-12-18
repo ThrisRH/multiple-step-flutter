@@ -23,7 +23,6 @@ class OcrInfoStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (ocrScannerController.ocrResult.value == null) return Container();
-    final info = ocrScannerController.ocrResult.value!;
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,10 +32,11 @@ class OcrInfoStep extends StatelessWidget {
             spacing: 12,
             children: [
               NormalInput(
-                controller: TextEditingController(text: info.data.name),
+                controller: ocrScannerController.nameController,
                 label: "Họ và tên",
                 hint: "Nhập họ và tên",
-                onChanged: (val) => {},
+                onChanged: (val) =>
+                    ocrScannerController.nameController.text = val,
               ),
 
               Row(
@@ -45,19 +45,21 @@ class OcrInfoStep extends StatelessWidget {
                   Flexible(
                     flex: 3,
                     child: NormalInput(
-                      controller: TextEditingController(text: info.data.dob),
+                      controller: ocrScannerController.dobController,
                       label: "Ngày sinh",
                       hint: "Nhập ngày sinh",
-                      onChanged: (val) => {},
+                      onChanged: (val) =>
+                          ocrScannerController.dobController.text = val,
                     ),
                   ),
                   Flexible(
                     flex: 2,
                     child: NormalInput(
-                      controller: TextEditingController(text: info.data.sex),
+                      controller: ocrScannerController.sexController,
                       label: "Giới tính",
                       hint: "Giới tính",
-                      onChanged: (val) => {},
+                      onChanged: (val) =>
+                          ocrScannerController.sexController.text = val,
                     ),
                   ),
                 ],
@@ -69,40 +71,44 @@ class OcrInfoStep extends StatelessWidget {
                   Flexible(
                     flex: 3,
                     child: NormalInput(
-                      controller: TextEditingController(text: info.data.id),
+                      controller: ocrScannerController.idNumberController,
                       label: "Số CCCD/CMND",
                       hint: "Nhập số CCCD/CMND",
-                      onChanged: (val) => {},
+                      onChanged: (val) =>
+                          ocrScannerController.idNumberController.text = val,
                     ),
                   ),
                   Flexible(
                     flex: 2,
                     child: NormalInput(
-                      controller: TextEditingController(text: info.data.doe),
+                      controller: ocrScannerController.doeController,
                       label: "Ngày hết hạn",
                       hint: "Nhập ngày hết hạn",
-                      onChanged: (val) => {},
+                      onChanged: (val) =>
+                          ocrScannerController.doeController.text = val,
                     ),
                   ),
                 ],
               ),
 
               NormalInput(
-                controller: TextEditingController(text: info.data.address),
+                controller: ocrScannerController.addressController,
                 label: "Địa chỉ thường trú",
                 hint: "Nhập địa chỉ thường trú",
-                onChanged: (val) => {},
+                onChanged: (val) =>
+                    ocrScannerController.addressController.text = val,
               ),
 
               NormalInput(
-                controller: TextEditingController(text: info.data.home),
+                controller: ocrScannerController.homeController,
                 label: "Nguyên quán",
                 hint: "Nguyên quán",
-                onChanged: (val) => {},
+                onChanged: (val) =>
+                    ocrScannerController.homeController.text = val,
               ),
 
               NormalInput(
-                controller: TextEditingController(text: info.data.nationality),
+                controller: ocrScannerController.nationalityController,
                 label: "Quốc tịch",
                 hint: "Quốc tịch",
                 onChanged: (val) => {},

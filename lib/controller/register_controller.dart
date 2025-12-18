@@ -70,6 +70,7 @@ class RegisterStepController extends GetxController {
     if (isValid) {
       errorMessage.value = "";
       index.value++;
+
       pageController.nextPage(
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeInOut,

@@ -41,6 +41,7 @@ class RegisterMainLayout extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
 
+                    // Header
                     AppHeader(
                       label: currentStep.label!,
                       haveBackToPrev: currentStep.haveBackToPrev!,
@@ -51,6 +52,7 @@ class RegisterMainLayout extends StatelessWidget {
                       },
                     ),
 
+                    // Body content
                     Expanded(
                       child: PageView(
                         controller: controller.pageController,

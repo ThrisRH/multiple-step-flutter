@@ -149,10 +149,26 @@ class OTPController extends GetxController {
       final OCRScannerController ocrScannerController =
           Get.find<OCRScannerController>();
 
+      final CccdData payload = CccdData(
+        id: ocrScannerController.idNumberController.text.trim(),
+        name: ocrScannerController.nameController.text,
+        dob: ocrScannerController.dobController.text,
+        sex: ocrScannerController.sexController.text,
+        nationality: ocrScannerController.nationalityController.text,
+        home: ocrScannerController.homeController.text,
+        address: ocrScannerController.addressController.text,
+        doe: ocrScannerController.doeController.text,
+
+        addressEntities:
+            ocrScannerController.ocrResult.value!.data.addressEntities,
+        type: ocrScannerController.ocrResult.value!.data.type,
+        typeNew: ocrScannerController.ocrResult.value!.data.typeNew,
+      );
+
       final registerRequest = RegisterRequest(
         phone: controller.phoneNumberController.text,
         password: hashPassword(controller.passwordController.text),
-        data: ocrScannerController.ocrResult.value!.data,
+        data: payload,
       );
 
       exportRegisterJson(registerRequest);
