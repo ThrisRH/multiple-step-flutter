@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:test/controller/ocr_controller.dart';
-import 'package:test/screens/auth/register.dart';
+import 'package:test/screens/permistion_manager.dart';
 
 void main() async {
   Get.put(OCRScannerController());
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
         debugShowCheckedModeBanner: false,
-        home: Register(),
+        home: PermissionScreen(),
       ),
     );
   }

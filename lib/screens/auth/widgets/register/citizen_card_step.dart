@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:test/controller/ocr_controller.dart';
 import 'package:test/controller/register_controller.dart';
 import 'package:test/core/theme/colors.dart';
-import 'package:test/widgets/buttons/index.dart';
 import 'package:test/widgets/common/error_message.dart';
+import 'package:test/widgets/layout/multiple_form/action.dart';
 
 // ignore: constant_identifier_names
 const ID_CARD_RULE = [
@@ -136,11 +136,13 @@ class CitizenCardStep extends StatelessWidget {
             ),
           ),
 
-          AppButton(
-            onTap: () {
-              registerStepController.nextStep();
-            },
-            label: "Tiếp theo",
+          Obx(
+            () => ActionWrapper(
+              onBack: registerStepController.prevStep,
+              onNext: registerStepController.nextStep,
+              canNext: ocrScannerController.ocrResult.value != null,
+              label: "Xác nhận",
+            ),
           ),
         ],
       );

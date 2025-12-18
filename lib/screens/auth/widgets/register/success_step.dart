@@ -6,6 +6,8 @@ import 'package:test/controller/register_controller.dart';
 import 'package:test/core/theme/colors.dart';
 import 'package:test/widgets/buttons/index.dart';
 
+class PermissionController extends GetxController {}
+
 class SuccessStep extends StatelessWidget {
   SuccessStep({super.key});
   final OCRScannerController ocrScannerController =
@@ -17,11 +19,12 @@ class SuccessStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (ocrScannerController.ocrResult.value == null ||
-          registerStepController.registerRequestData.value == null) {
-        return Center(child: CircularProgressIndicator());
+      if (!registerStepController.isSuccessReady) {
+        return const Center(child: CircularProgressIndicator());
       }
-      final info = registerStepController.registerRequestData.value;
+
+      final info = registerStepController.registerRequestData.value!;
+
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: 24,
@@ -51,7 +54,7 @@ class SuccessStep extends StatelessWidget {
                         ),
                       ),
 
-                      _buildInfoRow("Số điện thoại", info!.phone),
+                      _buildInfoRow("Số điện thoại", info.phone),
                       _buildInfoRow("Mật khẩu", info.password),
                       _buildInfoRow("Họ và tên", info.data.name),
                       _buildInfoRow("Ngày sinh", info.data.dob),

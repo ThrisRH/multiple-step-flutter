@@ -52,9 +52,9 @@ class OTPStep extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   "Chưa nhận được OTP?",
-                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                  style: TextStyle(fontSize: 14, color: AppColors.black),
                 ),
 
                 Obx(
@@ -79,7 +79,7 @@ class OTPStep extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                         color: otpController.canResend.value
                             ? AppColors.darkBlue
-                            : AppColors.inactive,
+                            : AppColors.darkBlue,
                       ),
                     ),
                   ),

@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:test/controller/ocr_controller.dart';
 import 'package:test/controller/register_controller.dart';
 import 'package:test/core/theme/colors.dart';
-import 'package:test/widgets/buttons/index.dart';
 import 'package:test/widgets/common/dot.dart';
 import 'package:test/widgets/inputs/index.dart';
+import 'package:test/widgets/layout/multiple_form/action.dart';
 
 // ignore: constant_identifier_names
 const CONFIRM_INFO_DISCLAIMER = [
@@ -133,11 +133,11 @@ class OcrInfoStep extends StatelessWidget {
             ],
           ),
 
-          AppButton(
-            onTap: () {
-              registerStepController.nextStep();
-            },
-            label: "Mọi thông tin hoàn toàn đúng.",
+          ActionWrapper(
+            onBack: registerStepController.prevStep,
+            onNext: registerStepController.nextStep,
+            canNext: true,
+            label: "Mọi thông tin đều đúng",
           ),
         ],
       ),

@@ -37,21 +37,18 @@ class OTPController extends GetxController {
   void onInit() {
     super.onInit();
 
-    ever(canNextStep, (_) {
+    ever(canNextStep, (_) async {
       if (canNextStep.value) {
         final RegisterStepController registerStepController =
             Get.find<RegisterStepController>();
-        onSubmit(registerStepController);
-        registerStepController.nextStep();
+        await onSubmit(registerStepController);
+        await registerStepController.loadRegisterRequest();
+        await registerStepController.nextStep();
       }
     });
 
     controllers = List.generate(length, (_) => TextEditingController());
     focusNodes = List.generate(length, (_) => FocusNode());
-  }
-
-  String getOtp() {
-    return controllers.map((c) => c.text).join();
   }
 
   void startCountdown() {
@@ -96,7 +93,7 @@ class OTPController extends GetxController {
       focusNodes[index + 1].requestFocus();
     }
 
-    final otp = getOtp();
+    final otp = controllers.map((c) => c.text).join();
 
     if (otp.length < length) {
       isError.value = false;
@@ -164,6 +161,7 @@ class OTPController extends GetxController {
     }
   }
 
+  // JSON handle
   Future<File> exportRegisterJson(RegisterRequest data) async {
     final dir = await getApplicationDocumentsDirectory();
     final file = File('${dir.path}/register_request.json');

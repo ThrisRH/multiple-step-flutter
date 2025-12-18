@@ -8,11 +8,11 @@ import 'package:test/controller/otp_controller.dart';
 import 'package:test/model/id_card_model.dart';
 
 class RegisterStepController extends GetxController {
+  Rx<File?> image = Rx<File?>(null);
+  final Rxn<RegisterRequest> registerRequestData = Rxn<RegisterRequest>();
+
   final ImagePicker picker = ImagePicker();
   final PageController pageController = PageController();
-  Rx<File?> image = Rx<File?>(null);
-
-  final Rxn<RegisterRequest> registerRequestData = Rxn<RegisterRequest>();
 
   final index = 0.obs;
   final agreeTerm = false.obs;
@@ -30,7 +30,11 @@ class RegisterStepController extends GetxController {
       Get.find<OCRScannerController>();
   final OTPController otpController = Get.put(OTPController());
 
-  late final List<bool Function()> validators;
+  late final List<Future<bool> Function()> validators;
+
+  bool get isSuccessReady =>
+      registerRequestData.value != null &&
+      ocrScannerController.ocrResult.value?.data != null;
 
   @override
   void onInit() {
@@ -41,12 +45,12 @@ class RegisterStepController extends GetxController {
     confirmPasswordController.text = confirmPassword.value;
 
     validators = [
-      validatePhone,
-      validatePassword,
-      validateImage,
-      validateInfo,
-      validatedOTP,
-      validateSuccess,
+      () async => validatePhone(),
+      () async => validatePassword(),
+      () async => validateImage(),
+      () async => true, // OCR Info Checking (Setup later)
+      () async => true, // OTP
+      () async => true, // Success Screen
     ];
   }
 
@@ -60,8 +64,10 @@ class RegisterStepController extends GetxController {
     }
   }
 
-  void nextStep() {
-    if (validators[index.value]()) {
+  Future<void> nextStep() async {
+    final isValid = await validators[index.value]();
+
+    if (isValid) {
       errorMessage.value = "";
       index.value++;
       pageController.nextPage(
@@ -135,22 +141,10 @@ class RegisterStepController extends GetxController {
     return true;
   }
 
-  bool validateInfo() {
-    return true;
-  }
-
+  // Load data of submit form
   Future<void> loadRegisterRequest() async {
     final data = await otpController.readRegisterJson();
     registerRequestData.value = data;
-  }
-
-  bool validatedOTP() {
-    loadRegisterRequest();
-    return true;
-  }
-
-  bool validateSuccess() {
-    return true;
   }
 
   // Reset form
