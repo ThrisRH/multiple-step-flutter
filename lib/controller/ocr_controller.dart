@@ -46,16 +46,54 @@ class OCRScannerController extends GetxController {
   //   ),
   // );
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
+  @override
+  void onInit() {
+    super.onInit();
 
-  //   if (ocrResult.value != null) {
-  //     updateField(ocrResult.value!.data);
-  //   }
-  // }
+    nameController.addListener(updateValidationState);
+    dobController.addListener(updateValidationState);
+    sexController.addListener(updateValidationState);
+    idNumberController.addListener(updateValidationState);
+    doeController.addListener(updateValidationState);
+    addressController.addListener(updateValidationState);
+    homeController.addListener(updateValidationState);
+    nationalityController.addListener(updateValidationState);
 
-  RxBool isLoading = false.obs;
+    // If using "ocrResult" test data, remove "//" of the next line
+    // updateField(ocrResult.value!.data);
+  }
+
+  @override
+  void onClose() {
+    // Remove listeners
+    nameController.removeListener(updateValidationState);
+    dobController.removeListener(updateValidationState);
+    sexController.removeListener(updateValidationState);
+    idNumberController.removeListener(updateValidationState);
+    doeController.removeListener(updateValidationState);
+    addressController.removeListener(updateValidationState);
+    homeController.removeListener(updateValidationState);
+    nationalityController.removeListener(updateValidationState);
+
+    super.onClose();
+  }
+
+  final RxBool isLoading = false.obs;
+  final RxBool isFilled = false.obs;
+
+  bool get isAllFieldsFilled => isFilled.value;
+
+  void updateValidationState() {
+    isFilled.value =
+        nameController.text.isNotEmpty &&
+        dobController.text.isNotEmpty &&
+        sexController.text.isNotEmpty &&
+        idNumberController.text.isNotEmpty &&
+        doeController.text.isNotEmpty &&
+        addressController.text.isNotEmpty &&
+        homeController.text.isNotEmpty &&
+        nationalityController.text.isNotEmpty;
+  }
 
   void updateField(CccdData data) {
     nameController.text = data.name;
@@ -66,6 +104,8 @@ class OCRScannerController extends GetxController {
     addressController.text = data.address;
     homeController.text = data.home;
     nationalityController.text = data.nationality;
+
+    updateValidationState();
   }
 
   Future<void> scanImage(File image) async {

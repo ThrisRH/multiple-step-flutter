@@ -98,7 +98,7 @@ class PhoneNumberStep extends StatelessWidget {
             children: [
               AppButton(
                 disabled:
-                    controller.phoneNumber.value == "" ||
+                    controller.phoneNumber.value.length < 10 ||
                     !controller.agreeTerm.value,
                 onTap: () {
                   controller.nextStep();

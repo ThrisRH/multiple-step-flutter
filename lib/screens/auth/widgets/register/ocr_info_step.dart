@@ -139,11 +139,13 @@ class OcrInfoStep extends StatelessWidget {
             ],
           ),
 
-          ActionWrapper(
-            onBack: registerStepController.prevStep,
-            onNext: registerStepController.nextStep,
-            canNext: true,
-            label: "Mọi thông tin đều đúng",
+          Obx(
+            () => ActionWrapper(
+              onBack: registerStepController.prevStep,
+              onNext: registerStepController.nextStep,
+              canNext: ocrScannerController.isAllFieldsFilled,
+              label: "Mọi thông tin đều đúng",
+            ),
           ),
         ],
       ),

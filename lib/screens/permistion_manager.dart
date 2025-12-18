@@ -31,7 +31,7 @@ class PermissionScreen extends StatelessWidget {
           "Permission Manager",
           style: TextStyle(color: AppColors.white),
         ),
-        backgroundColor: AppColors.labelGrey,
+        backgroundColor: AppColors.primary,
       ),
       body: Column(
         children: [

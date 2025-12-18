@@ -85,7 +85,8 @@ class PasswordStep extends StatelessWidget {
             onNext: controller.nextStep,
             canNext:
                 (controller.password.value != "" &&
-                controller.confirmPassword.value != ""),
+                controller.confirmPassword.value != "" &&
+                controller.password.value == controller.confirmPassword.value),
             label: "Tạo mật khẩu",
           ),
         ),
