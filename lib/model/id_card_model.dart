@@ -1,7 +1,102 @@
+class PersonalInformation {
+  final String name;
+  final String idCard;
+  final String sex;
+  final String nationality;
+  final String home;
+  final String address;
+  final AddressEntities addressEntities;
+  final String dob;
+  final String doe;
+
+  PersonalInformation({
+    required this.name,
+    required this.idCard,
+    required this.sex,
+    required this.nationality,
+    required this.home,
+    required this.address,
+    required this.dob,
+    required this.doe,
+    required this.addressEntities,
+  });
+
+  factory PersonalInformation.fromJson(Map<String, dynamic> json) {
+    return PersonalInformation(
+      name: json['name'] ?? '',
+      idCard: json['id_card'] ?? '',
+      sex: json['sex'] ?? '',
+      nationality: json['nationality'] ?? '',
+      addressEntities: AddressEntities.fromJson(json['address_entities'] ?? {}),
+      home: json['home'] ?? '',
+      address: json['address'] ?? '',
+      dob: json['dob'] ?? '',
+      doe: json['doe'] ?? '',
+    );
+  }
+}
+
+class AddressEntities {
+  final String province;
+  final String district;
+  final String ward;
+  final String street;
+
+  AddressEntities({
+    required this.province,
+    required this.district,
+    required this.ward,
+    required this.street,
+  });
+
+  factory AddressEntities.fromJson(Map<String, dynamic> json) {
+    return AddressEntities(
+      province: json['province'] ?? '',
+      district: json['district'] ?? '',
+      ward: json['ward'] ?? '',
+      street: json['street'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "province": province,
+      "district": district,
+      "ward": ward,
+      "street": street,
+    };
+  }
+}
+
+class UserModel {
+  final int id;
+  final String username;
+  final String email;
+  final PersonalInformation personalInformation;
+
+  UserModel({
+    required this.id,
+    required this.username,
+    required this.email,
+    required this.personalInformation,
+  });
+
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      id: json['id'],
+      username: json['username'] ?? '',
+      email: json['email'] ?? '',
+      personalInformation: PersonalInformation.fromJson(
+        json['personal_information'],
+      ),
+    );
+  }
+}
+
 class OCRResponse {
   final int errorCode;
   final String errorMessage;
-  final CccdData data;
+  final PersonalInformation data;
 
   OCRResponse({
     required this.errorCode,
@@ -12,89 +107,22 @@ class OCRResponse {
   factory OCRResponse.fromJson(Map<String, dynamic> json) {
     return OCRResponse(
       errorCode: json['errorCode'] ?? 0,
-      errorMessage: json['errorMessage'] ?? "",
-      data: CccdData.fromJson(json['data'][0]),
+      errorMessage: json['errorMessage'] ?? '',
+      data: PersonalInformation.fromJson(json['data'][0]),
     );
   }
 }
 
 class RegisterRequest {
   final String phone;
+  final String email;
   final String password;
-  final CccdData data;
+  final PersonalInformation personalInformation;
 
   RegisterRequest({
     required this.phone,
+    required this.email,
     required this.password,
-    required this.data,
+    required this.personalInformation,
   });
-
-  Map<String, dynamic> toJson() {
-    return {
-      "phone": phone,
-      "password": password,
-      "data": {
-        "id": data.id,
-        "name": data.name,
-        "dob": data.dob,
-        "sex": data.sex,
-        "nationality": data.nationality,
-        "home": data.home,
-        "address": data.address,
-        "doe": data.doe,
-      },
-    };
-  }
-
-  factory RegisterRequest.fromJson(Map<String, dynamic> json) {
-    return RegisterRequest(
-      phone: json['phone'] ?? "",
-      password: json['password'] ?? "",
-      data: CccdData.fromJson(json['data']),
-    );
-  }
-}
-
-class CccdData {
-  final String id;
-  final String name;
-  final String dob;
-  final String sex;
-  final String nationality;
-  final String home;
-  final String address;
-  final String doe;
-  final Map<String, dynamic> addressEntities;
-  final String typeNew;
-  final String type;
-
-  CccdData({
-    required this.id,
-    required this.name,
-    required this.dob,
-    required this.sex,
-    required this.nationality,
-    required this.home,
-    required this.address,
-    required this.doe,
-    required this.addressEntities,
-    required this.typeNew,
-    required this.type,
-  });
-
-  factory CccdData.fromJson(Map<String, dynamic> json) {
-    return CccdData(
-      id: json["id"].toString(),
-      name: json["name"] ?? "",
-      dob: json["dob"] ?? "",
-      sex: json["sex"] ?? "",
-      nationality: json["nationality"] ?? "",
-      home: json["home"] ?? "",
-      address: json["address"] ?? "",
-      doe: json["doe"] ?? "",
-      addressEntities: json["address_entities"] ?? {},
-      typeNew: json["type_new"] ?? "",
-      type: json["type"] ?? "",
-    );
-  }
 }

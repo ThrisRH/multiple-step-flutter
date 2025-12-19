@@ -1,15 +1,13 @@
 // ignore: constant_identifier_names
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:test/controller/ocr_controller.dart';
 import 'package:test/controller/register_controller.dart';
 import 'package:test/core/utils/hash_password.dart';
 import 'package:test/model/id_card_model.dart';
+import 'package:test/service/register_service.dart';
+import 'package:test/widgets/layout/multiple_form/index.dart';
 
 // ignore: constant_identifier_names
 const TEMP_OTP = "323238";
@@ -27,6 +25,10 @@ class OTPController extends GetxController {
   final failedCount = 0.obs;
   final lockedTime = 0.obs;
 
+  final userService = UserService();
+
+  final LoadingController loadingController = Get.find<LoadingController>();
+
   late List<TextEditingController> controllers;
   late List<FocusNode> focusNodes;
 
@@ -42,7 +44,6 @@ class OTPController extends GetxController {
         final RegisterStepController registerStepController =
             Get.find<RegisterStepController>();
         await onSubmit(registerStepController);
-        await registerStepController.loadRegisterRequest();
         await registerStepController.nextStep();
       }
     });
@@ -143,14 +144,15 @@ class OTPController extends GetxController {
 
   // Submit form after validate OTP succeed
   Future<void> onSubmit(RegisterStepController controller) async {
+    loadingController.isLoading.value = true;
     try {
       await Future.delayed(const Duration(milliseconds: 500));
 
       final OCRScannerController ocrScannerController =
           Get.find<OCRScannerController>();
 
-      final CccdData payload = CccdData(
-        id: ocrScannerController.idNumberController.text.trim(),
+      final PersonalInformation payload = PersonalInformation(
+        idCard: ocrScannerController.idNumberController.text,
         name: ocrScannerController.nameController.text,
         dob: ocrScannerController.dobController.text,
         sex: ocrScannerController.sexController.text,
@@ -158,44 +160,32 @@ class OTPController extends GetxController {
         home: ocrScannerController.homeController.text,
         address: ocrScannerController.addressController.text,
         doe: ocrScannerController.doeController.text,
-
         addressEntities:
             ocrScannerController.ocrResult.value!.data.addressEntities,
-        type: ocrScannerController.ocrResult.value!.data.type,
-        typeNew: ocrScannerController.ocrResult.value!.data.typeNew,
       );
 
       final registerRequest = RegisterRequest(
         phone: controller.phoneNumberController.text,
+        email: controller.emailController.text,
         password: hashPassword(controller.passwordController.text),
-        data: payload,
+        personalInformation: payload,
       );
 
-      exportRegisterJson(registerRequest);
+      final response = await userService.registerAccount(registerRequest);
+
+      if (response['isSuccess'] == false) {
+        Get.snackbar("Đăng ký thất bại!", response['errorMessage']);
+      } else {
+        Get.snackbar(
+          "Đăng ký thành công!",
+          "Chúc mừng bạn đã đăng ký thành công.",
+        );
+      }
     } catch (e) {
       errorMessage.value = "Đăng ký thất bại. Vui lòng thử lại sau.";
+    } finally {
+      loadingController.isLoading.value = false;
     }
-  }
-
-  // JSON handle
-  Future<File> exportRegisterJson(RegisterRequest data) async {
-    final dir = await getApplicationDocumentsDirectory();
-    final file = File('${dir.path}/register_request.json');
-
-    final jsonString = jsonEncode(data.toJson());
-    return file.writeAsString(jsonString);
-  }
-
-  Future<RegisterRequest?> readRegisterJson() async {
-    final dir = await getApplicationDocumentsDirectory();
-    final file = File('${dir.path}/register_request.json');
-
-    if (!file.existsSync()) return null;
-
-    final jsonString = await file.readAsString();
-    final Map<String, dynamic> jsonMap = jsonDecode(jsonString);
-
-    return RegisterRequest.fromJson(jsonMap);
   }
 
   @override

@@ -5,36 +5,38 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:test/controller/ocr_controller.dart';
 import 'package:test/controller/otp_controller.dart';
-import 'package:test/model/id_card_model.dart';
+import 'package:test/service/register_service.dart';
+import 'package:test/widgets/layout/multiple_form/index.dart';
 
 class RegisterStepController extends GetxController {
-  Rx<File?> image = Rx<File?>(null);
-  final Rxn<RegisterRequest> registerRequestData = Rxn<RegisterRequest>();
-
   final ImagePicker picker = ImagePicker();
+  Rx<File?> image = Rx<File?>(null);
+
   final PageController pageController = PageController();
+  final OCRScannerController ocrScannerController =
+      Get.find<OCRScannerController>();
+  final OTPController otpController = Get.put(OTPController());
+  final LoadingController loadingController = Get.find<LoadingController>();
 
   final index = 0.obs;
   final agreeTerm = false.obs;
   final errorMessage = "".obs;
 
   final phoneNumberController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
   final phoneNumber = "".obs;
+  final email = "".obs;
   final password = "".obs;
   final confirmPassword = "".obs;
 
-  final OCRScannerController ocrScannerController =
-      Get.find<OCRScannerController>();
-  final OTPController otpController = Get.put(OTPController());
+  final userService = UserService();
 
   late final List<Future<bool> Function()> validators;
 
-  bool get isSuccessReady =>
-      registerRequestData.value != null &&
-      ocrScannerController.ocrResult.value?.data != null;
+  bool get isSuccessReady => ocrScannerController.ocrResult.value?.data != null;
 
   @override
   void onInit() {
@@ -90,20 +92,35 @@ class RegisterStepController extends GetxController {
   }
 
   // Check phone step
-  bool validatePhone() {
+  Future<bool> validatePhone() async {
     String pattern = r'^(?:\+84|84|0)(3|5|7|8|9)\d{8,9}$';
     RegExp regExp = RegExp(pattern);
 
-    if (!regExp.hasMatch(phoneNumberController.text)) {
-      errorMessage.value = "Số điện thoại không hợp lệ";
-      return false;
-    }
+    try {
+      loadingController.isLoading.value = true;
+      if (!regExp.hasMatch(phoneNumberController.text)) {
+        errorMessage.value = "Số điện thoại không hợp lệ";
+        return false;
+      }
 
-    if (!agreeTerm.value) {
-      errorMessage.value = "Vui lòng chấp nhận điều khoản sử dụng để tiếp tục.";
-      return false;
+      if (!agreeTerm.value) {
+        errorMessage.value =
+            "Vui lòng chấp nhận điều khoản sử dụng để tiếp tục.";
+        return false;
+      }
+
+      if (await userService.checkValidPhoneEmail(
+        phoneNumber.value,
+        email.value,
+      )) {
+        errorMessage.value = "Số điện thoại hoặc mật khẩu đã được sử dụng.";
+        return false;
+      }
+
+      return true;
+    } finally {
+      loadingController.isLoading.value = false;
     }
-    return true;
   }
 
   // Check password step
@@ -142,12 +159,6 @@ class RegisterStepController extends GetxController {
     return true;
   }
 
-  // Load data of submit form
-  Future<void> loadRegisterRequest() async {
-    final data = await otpController.readRegisterJson();
-    registerRequestData.value = data;
-  }
-
   // Reset form
   void resetToPhoneNumberStep() {
     index.value = 0;
@@ -159,7 +170,6 @@ class RegisterStepController extends GetxController {
     agreeTerm.value = false;
     errorMessage.value = "";
     image.value = null;
-    registerRequestData.value = null;
 
     ocrScannerController.ocrResult.value = null;
     otpController.reset();

@@ -22,12 +22,15 @@ class Register extends StatelessWidget {
     final stepsList = [
       RegisterStepConfig(
         page: PhoneNumberStep(
-          onChanged: (val) {
+          phoneOnChanged: (val) {
             registerStepController.phoneNumber.value = val;
+          },
+          emailOnChanged: (val) {
+            registerStepController.email.value = val;
           },
         ),
 
-        label: "Đăng ký bằng số điện thoại",
+        label: "Đăng ký bằng số điện thoại và email",
         haveBackToPrev: false,
       ),
 

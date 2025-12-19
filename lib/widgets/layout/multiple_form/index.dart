@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:test/controller/ocr_controller.dart';
 import 'package:test/controller/register_controller.dart';
 import 'package:test/core/config/register_step_config.dart';
 import 'package:test/core/theme/colors.dart';
 import 'package:test/widgets/layout/multiple_form/header.dart';
+
+class LoadingController extends GetxController {
+  final isLoading = false.obs;
+}
 
 class RegisterMainLayout extends StatelessWidget {
   final List<RegisterStepConfig> stepsList;
@@ -19,7 +22,7 @@ class RegisterMainLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() {
-        final isLoading = Get.find<OCRScannerController>().isLoading.value;
+        final isLoading = Get.find<LoadingController>().isLoading.value;
         final currentStep = stepsList[controller.index.value];
 
         return Stack(

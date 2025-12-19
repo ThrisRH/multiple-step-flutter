@@ -3,15 +3,20 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:test/controller/register_controller.dart';
 import 'package:test/core/theme/colors.dart';
-import 'package:test/screens/permistion_manager.dart';
+import 'package:test/screens/manager/permission_manager.dart';
 import 'package:test/widgets/buttons/index.dart';
 import 'package:test/widgets/common/error_message.dart';
 import 'package:test/widgets/inputs/index.dart';
 
 class PhoneNumberStep extends StatelessWidget {
-  final Function(String) onChanged;
+  final Function(String) phoneOnChanged;
+  final Function(String) emailOnChanged;
 
-  PhoneNumberStep({super.key, required this.onChanged});
+  PhoneNumberStep({
+    super.key,
+    required this.phoneOnChanged,
+    required this.emailOnChanged,
+  });
   final RegisterStepController controller = Get.find<RegisterStepController>();
 
   @override
@@ -29,9 +34,15 @@ class PhoneNumberStep extends StatelessWidget {
                 label: "Số điện thoại",
                 hint: "Nhập số điện thoại",
                 controller: controller.phoneNumberController,
-                onChanged: onChanged,
+                onChanged: phoneOnChanged,
                 maxLength: 12,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              ),
+              NormalInput(
+                label: "Email",
+                hint: "Nhập email",
+                controller: controller.emailController,
+                onChanged: emailOnChanged,
               ),
 
               // Error warning
@@ -99,6 +110,7 @@ class PhoneNumberStep extends StatelessWidget {
               AppButton(
                 disabled:
                     controller.phoneNumber.value.length < 10 ||
+                    controller.email.value == "" ||
                     !controller.agreeTerm.value,
                 onTap: () {
                   controller.nextStep();

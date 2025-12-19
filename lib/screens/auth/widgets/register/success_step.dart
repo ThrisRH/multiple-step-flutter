@@ -21,8 +21,6 @@ class SuccessStep extends StatelessWidget {
         return const Center(child: CircularProgressIndicator());
       }
 
-      final info = registerStepController.registerRequestData.value!;
-
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: 24,
@@ -52,16 +50,46 @@ class SuccessStep extends StatelessWidget {
                         ),
                       ),
 
-                      _buildInfoRow("Số điện thoại", info.phone),
-                      _buildInfoRow("Mật khẩu", info.password),
-                      _buildInfoRow("Họ và tên", info.data.name),
-                      _buildInfoRow("Ngày sinh", info.data.dob),
-                      _buildInfoRow("Địa chỉ thường trú", info.data.address),
-                      _buildInfoRow("Nguyên quán", info.data.home),
-                      _buildInfoRow("Giới tính", info.data.sex),
-                      _buildInfoRow("Quốc tịch", info.data.nationality),
-                      _buildInfoRow("Số CCCD/CMND", info.data.id),
-                      _buildInfoRow("Ngày hết hạn", info.data.doe),
+                      _buildInfoRow(
+                        "Số điện thoại",
+                        registerStepController.phoneNumberController.text,
+                      ),
+                      _buildInfoRow(
+                        "Email",
+                        registerStepController.emailController.text,
+                      ),
+                      _buildInfoRow(
+                        "Họ và tên",
+                        ocrScannerController.nameController.text,
+                      ),
+                      _buildInfoRow(
+                        "Ngày sinh",
+                        ocrScannerController.dobController.text,
+                      ),
+                      _buildInfoRow(
+                        "Địa chỉ thường trú",
+                        ocrScannerController.addressController.text,
+                      ),
+                      _buildInfoRow(
+                        "Nguyên quán",
+                        ocrScannerController.homeController.text,
+                      ),
+                      _buildInfoRow(
+                        "Giới tính",
+                        ocrScannerController.sexController.text,
+                      ),
+                      _buildInfoRow(
+                        "Quốc tịch",
+                        ocrScannerController.nationalityController.text,
+                      ),
+                      _buildInfoRow(
+                        "Số CCCD/CMND",
+                        ocrScannerController.idNumberController.text,
+                      ),
+                      _buildInfoRow(
+                        "Ngày hết hạn",
+                        ocrScannerController.doeController.text,
+                      ),
                     ],
                   ),
                 ),

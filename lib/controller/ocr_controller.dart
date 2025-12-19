@@ -23,8 +23,8 @@ class OCRScannerController extends GetxController {
 
   // Rx<OCRResponse?> ocrResult = Rx<OCRResponse?>(
   //   OCRResponse(
-  //     data: CccdData(
-  //       id: "001204014664",
+  //     data: PersonalInformation(
+  //       idCard: "001204014664",
   //       name: "NGUYỄN MINH QUÂN",
   //       dob: "09/09/2004",
   //       sex: "NAM",
@@ -32,14 +32,12 @@ class OCRScannerController extends GetxController {
   //       home: "Hòa Long, Thành Phố Bắc Ninh, Bắc Ninh",
   //       address: "218C Đội Cấn Liễu Giai, Ba Đình, Hà Nội",
   //       doe: "09/09/2029",
-  //       addressEntities: {
-  //         "province": "Hà Nội",
-  //         "district": "Ba Đình",
-  //         "ward": "Liễu Giai",
-  //         "street": "Đội Cấn",
-  //       },
-  //       typeNew: "cmnd_12_front",
-  //       type: "new",
+  //       addressEntities: AddressEntities(
+  //         province: "Hà Nội",
+  //         district: "Ba Đình",
+  //         ward: "Liễu Giai",
+  //         street: "Đội Cấn",
+  //       ),
   //     ),
   //     errorCode: 200,
   //     errorMessage: '',
@@ -95,11 +93,11 @@ class OCRScannerController extends GetxController {
         nationalityController.text.isNotEmpty;
   }
 
-  void updateField(CccdData data) {
+  void updateField(PersonalInformation data) {
     nameController.text = data.name;
     dobController.text = data.dob;
     sexController.text = data.sex;
-    idNumberController.text = data.id;
+    idNumberController.text = data.idCard;
     doeController.text = data.doe;
     addressController.text = data.address;
     homeController.text = data.home;

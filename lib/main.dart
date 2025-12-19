@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:test/controller/ocr_controller.dart';
-import 'package:test/screens/permistion_manager.dart';
+import 'package:test/screens/manager/permission_manager.dart';
+import 'package:test/screens/manager/user_detail.dart';
+import 'package:test/screens/manager/user_manager.dart';
+import 'package:test/widgets/layout/multiple_form/index.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await dotenv.load(fileName: ".env");
+
   Get.put(OCRScannerController());
+  Get.put(LoadingController());
 
   runApp(const MyApp());
 }
@@ -18,9 +27,16 @@ class MyApp extends StatelessWidget {
     return SafeArea(
       child: GetMaterialApp(
         title: 'Flutter Demo',
-        theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        ),
         debugShowCheckedModeBanner: false,
-        home: PermissionScreen(),
+        initialRoute: '/user-manager',
+        getPages: [
+          GetPage(name: '/user-manager', page: () => UserManager()),
+          GetPage(name: '/permission', page: () => PermissionScreen()),
+          GetPage(name: '/user-detail', page: () => UserDetail()),
+        ],
       ),
     );
   }
