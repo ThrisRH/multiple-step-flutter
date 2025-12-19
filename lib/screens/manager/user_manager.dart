@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:test/core/theme/colors.dart';
 import 'package:test/model/id_card_model.dart';
 import 'package:test/screens/manager/widgets/manager_layout.dart';
 import 'package:test/service/register_service.dart';
@@ -75,7 +76,7 @@ class UserManager extends StatelessWidget {
   }
 
   Widget _buildUserItem(UserModel user) {
-    return Card(
+    return Container(
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: InkWell(
         onTap: () {
@@ -88,39 +89,46 @@ class UserManager extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                spacing: 24,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(Icons.person, color: Colors.blue),
-                  SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      user.personalInformation.name,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColors.labelGrey,
+                    ),
+                    child: Center(
+                      child: Icon(Icons.person, color: AppColors.darkBlue),
                     ),
                   ),
-                ],
-              ),
-              SizedBox(height: 8),
-              Row(
-                children: [
-                  Icon(Icons.phone, color: Colors.green, size: 18),
-                  SizedBox(width: 8),
-                  Text(
-                    user.username,
-                    style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                  Expanded(
+                    child: Column(
+                      spacing: 2,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          user.personalInformation.name,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.black,
+                          ),
+                        ),
+                        Text(
+                          user.email,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: AppColors.labelGrey,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ],
-              ),
-              SizedBox(height: 4),
-              Row(
-                children: [
-                  Icon(Icons.email, color: Colors.orange, size: 18),
-                  SizedBox(width: 8),
-                  Text(
-                    user.email,
-                    style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                  Icon(
+                    Icons.arrow_forward_ios_sharp,
+                    color: AppColors.darkBlue,
                   ),
                 ],
               ),

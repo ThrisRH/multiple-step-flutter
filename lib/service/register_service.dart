@@ -70,7 +70,9 @@ class UserService {
   }
 
   Future<List<UserModel>> fetchUsers() async {
-    final response = await dio.get('$API_HOST/users?populate=*');
+    final response = await dio.get(
+      '$API_HOST/users?populate[personal_information][populate]=address_entities',
+    );
 
     final List<dynamic> jsonList = response.data;
 

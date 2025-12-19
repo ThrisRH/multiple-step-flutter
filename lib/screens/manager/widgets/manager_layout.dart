@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:test/core/theme/colors.dart';
 
 class ManagerLayout extends StatelessWidget {
@@ -8,8 +9,15 @@ class ManagerLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentRoute = Get.currentRoute;
     return Scaffold(
       appBar: AppBar(
+        leading: currentRoute != "/user-manager"
+            ? GestureDetector(
+                onTap: () => Get.back(),
+                child: Icon(Icons.arrow_back_ios_new, color: AppColors.white),
+              )
+            : null,
         title: Text(title, style: TextStyle(color: AppColors.white)),
         backgroundColor: AppColors.primary,
       ),
