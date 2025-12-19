@@ -79,7 +79,6 @@ class UserManager extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: InkWell(
         onTap: () {
-          // Navigate to user detail page (API chưa có)
           Get.toNamed('/user-detail', arguments: user);
         },
         borderRadius: BorderRadius.circular(8),
