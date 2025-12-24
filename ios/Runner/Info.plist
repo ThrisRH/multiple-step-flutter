@@ -6,13 +6,13 @@
 	<string>Ứng dụng cần quyền truy cập thư viện ảnh để chọn ảnh.</string>
 
 	<key>NSMicrophoneUsageDescription</key>
-	<string>We need access to your microphone for voice recording.</string>
+	<string>Ứng dụng cần quyền truy cập microphone.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Ứng dụng cần quyền truy cập camera để chụp ảnh.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Test</string>
+	<string>NabeBank</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -20,7 +20,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>test</string>
+	<string>NabeBank</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

@@ -1,75 +1,181 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:test/core/theme/colors.dart';
-import 'package:test/screens/auth/register.dart';
-import 'package:test/widgets/buttons/index.dart';
+import 'package:nabebank/core/utils/permission_status.dart';
+import 'package:nabebank/screens/auth/register.dart';
+import 'package:nabebank/widgets/buttons/index.dart';
+
+class PermissionController extends GetxController {
+  final locationStatus = PermissionStatus.denied.obs;
+  final locationAlwaysStatus = PermissionStatus.denied.obs;
+  final locationWhenInUseStatus = PermissionStatus.denied.obs;
+  final photoStatus = PermissionStatus.denied.obs;
+  final phoneStatus = PermissionStatus.denied.obs;
+  final microStatus = PermissionStatus.denied.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    load();
+  }
+
+  void load() async {
+    locationStatus.value = await Permission.location.status;
+    locationAlwaysStatus.value = await Permission.locationAlways.status;
+    locationWhenInUseStatus.value = await Permission.locationWhenInUse.status;
+    photoStatus.value = await Permission.photos.status;
+    phoneStatus.value = await Permission.phone.status;
+    microStatus.value = await Permission.microphone.status;
+  }
+
+  void request(
+    Permission permission,
+    Rx<PermissionStatus> targetStatus,
+    String name,
+  ) async {
+    final status = await permission.request();
+    targetStatus.value = status;
+
+    switch (status) {
+      case PermissionStatus.granted:
+        Get.snackbar("Quyền $name", "Đã cấp quyền thành công.");
+        break;
+
+      case PermissionStatus.denied:
+        Get.snackbar("Quyền $name", "Đã bị từ chối.");
+        break;
+
+      case PermissionStatus.limited:
+        Get.snackbar("Quyền $name", "Quyền được cấp giới hạn.");
+        break;
+
+      case PermissionStatus.permanentlyDenied:
+        Get.snackbar("Quyền $name", "Quyền bị từ chối vĩnh viễn.");
+        openAppSettings();
+        break;
+
+      case PermissionStatus.restricted:
+        Get.snackbar("Quyền $name", "Hệ thống không cho phép quyền này.");
+        openAppSettings();
+        break;
+
+      case PermissionStatus.provisional:
+        Get.snackbar("Quyền $name", "Quyền được cấp tạm thời.");
+        openAppSettings();
+        break;
+    }
+  }
+}
 
 class PermissionScreen extends StatelessWidget {
-  const PermissionScreen({super.key});
+  PermissionScreen({super.key});
+
+  final controller = Get.put(PermissionController());
 
   @override
   Widget build(BuildContext context) {
-    Future<void> requestPermission({required Permission permission}) async {
-      final status = await permission.status;
-      if (status.isGranted) {
-        debugPrint("Permission already granted");
-      } else if (status.isDenied) {
-        if (await permission.request().isGranted) {
-          debugPrint("Permission granted");
-        } else {
-          debugPrint("Permission denied");
-        }
-      } else {
-        openAppSettings();
-      }
-    }
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Permission Manager",
-          style: TextStyle(color: AppColors.white),
-        ),
-        backgroundColor: AppColors.primary,
-      ),
+      appBar: AppBar(title: const Text("Permission Manager")),
       body: Column(
         children: [
-          ListTile(
-            title: Text("Camera Permission"),
-            leading: Icon(Icons.camera),
-            onTap: () => requestPermission(permission: Permission.camera),
-          ),
-          ListTile(
-            title: Text("Microphone Permission"),
-            leading: Icon(Icons.mic_rounded),
-            onTap: () => requestPermission(permission: Permission.microphone),
-          ),
-          ListTile(
-            title: Text("Location Permission"),
-            leading: Icon(Icons.location_on_rounded),
-            onTap: () => requestPermission(permission: Permission.location),
-          ),
-          ListTile(
-            title: Text("Notification Permission"),
-            leading: Icon(Icons.notifications_active),
-            onTap: () => requestPermission(permission: Permission.notification),
-          ),
-          ListTile(
-            title: Text("Photo Permission"),
-            leading: Icon(Icons.photo),
-            onTap: () => requestPermission(permission: Permission.photos),
+          Obx(
+            () => ListTile(
+              title: const Text("Location"),
+              subtitle: Text(
+                statusText(controller.locationStatus.value),
+                style: TextStyle(
+                  color: statusColor(controller.locationStatus.value),
+                ),
+              ),
+              leading: const Icon(Icons.location_on),
+              onTap: () => controller.request(
+                Permission.location,
+                controller.locationStatus,
+                "Vị trí",
+              ),
+            ),
           ),
 
-          Spacer(),
-          Container(
-            margin: EdgeInsets.only(bottom: 24),
-            padding: EdgeInsets.symmetric(horizontal: 24),
-            height: 48,
+          Obx(
+            () => ListTile(
+              title: const Text("Location When In Use"),
+              subtitle: Text(
+                statusText(controller.locationWhenInUseStatus.value),
+                style: TextStyle(
+                  color: statusColor(controller.locationWhenInUseStatus.value),
+                ),
+              ),
+              leading: const Icon(Icons.my_location),
+              onTap: () => controller.request(
+                Permission.locationWhenInUse,
+                controller.locationWhenInUseStatus,
+                "Vị trí",
+              ),
+            ),
+          ),
+
+          Obx(
+            () => ListTile(
+              title: const Text("Location Always"),
+              subtitle: Text(
+                statusText(controller.locationAlwaysStatus.value),
+                style: TextStyle(
+                  color: statusColor(controller.locationAlwaysStatus.value),
+                ),
+              ),
+              leading: const Icon(Icons.location_searching),
+              onTap: () => controller.request(
+                Permission.locationAlways,
+                controller.locationAlwaysStatus,
+                "Vị trí",
+              ),
+            ),
+          ),
+
+          Obx(
+            () => ListTile(
+              title: const Text("Photos"),
+              subtitle: Text(
+                statusText(controller.photoStatus.value),
+                style: TextStyle(
+                  color: statusColor(controller.photoStatus.value),
+                ),
+              ),
+              leading: const Icon(Icons.photo),
+              onTap: () => controller.request(
+                Permission.photos,
+                controller.photoStatus,
+                "Vị trí",
+              ),
+            ),
+          ),
+
+          Obx(
+            () => ListTile(
+              title: const Text("Microphone"),
+              subtitle: Text(
+                statusText(controller.microStatus.value),
+                style: TextStyle(
+                  color: statusColor(controller.microStatus.value),
+                ),
+              ),
+              leading: const Icon(Icons.storage),
+              onTap: () => controller.request(
+                Permission.microphone,
+                controller.microStatus,
+                "Thu âm",
+              ),
+            ),
+          ),
+
+          const Spacer(),
+
+          Padding(
+            padding: const EdgeInsets.all(24),
             child: AppButton(
+              label: "Đăng ký tài khoản",
               onTap: () =>
                   Get.to(Register(), transition: Transition.noTransition),
-              label: "Đăng ký tài khoản",
             ),
           ),
         ],

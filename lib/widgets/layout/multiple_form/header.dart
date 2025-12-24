@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test/core/theme/colors.dart';
+import 'package:nabebank/core/theme/colors.dart';
 
 class AppHeader extends StatelessWidget {
   final VoidCallback? onTap;

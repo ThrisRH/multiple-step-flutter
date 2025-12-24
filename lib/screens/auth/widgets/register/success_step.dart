@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:test/controller/ocr_controller.dart';
-import 'package:test/controller/otp_controller.dart';
-import 'package:test/controller/register_controller.dart';
-import 'package:test/core/theme/colors.dart';
-import 'package:test/widgets/buttons/index.dart';
-import 'package:test/widgets/common/info_container.dart';
-import 'package:test/widgets/common/info_row.dart';
+import 'package:nabebank/controller/ocr_controller.dart';
+import 'package:nabebank/controller/otp_controller.dart';
+import 'package:nabebank/controller/register_controller.dart';
+import 'package:nabebank/core/theme/colors.dart';
+import 'package:nabebank/widgets/buttons/index.dart';
+import 'package:nabebank/widgets/common/info_container.dart';
+import 'package:nabebank/widgets/common/info_row.dart';
 
 class SuccessStep extends StatelessWidget {
   SuccessStep({super.key});

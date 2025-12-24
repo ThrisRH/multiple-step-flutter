@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:test/model/id_card_model.dart';
-import 'package:test/screens/manager/widgets/manager_layout.dart';
-import 'package:test/widgets/common/info_container.dart';
-import 'package:test/widgets/common/info_row.dart';
+import 'package:nabebank/model/id_card_model.dart';
+import 'package:nabebank/screens/manager/widgets/manager_layout.dart';
+import 'package:nabebank/widgets/common/info_container.dart';
+import 'package:nabebank/widgets/common/info_row.dart';
 
 class UserDetail extends StatelessWidget {
   const UserDetail({super.key});

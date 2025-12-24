@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:test/core/theme/colors.dart';
-import 'package:test/model/id_card_model.dart';
-import 'package:test/screens/manager/widgets/manager_layout.dart';
-import 'package:test/service/register_service.dart';
-import 'package:test/widgets/layout/multiple_form/index.dart';
+import 'package:nabebank/core/theme/colors.dart';
+import 'package:nabebank/model/id_card_model.dart';
+import 'package:nabebank/screens/manager/widgets/manager_layout.dart';
+import 'package:nabebank/service/register_service.dart';
+import 'package:nabebank/widgets/layout/multiple_form/index.dart';
 
 class UserController extends GetxController {
   final noticeMessage = "".obs;

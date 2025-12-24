@@ -2,12 +2,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:test/controller/ocr_controller.dart';
-import 'package:test/controller/register_controller.dart';
-import 'package:test/core/utils/hash_password.dart';
-import 'package:test/model/id_card_model.dart';
-import 'package:test/service/register_service.dart';
-import 'package:test/widgets/layout/multiple_form/index.dart';
+import 'package:nabebank/controller/ocr_controller.dart';
+import 'package:nabebank/controller/register_controller.dart';
+import 'package:nabebank/core/utils/hash_password.dart';
+import 'package:nabebank/model/id_card_model.dart';
+import 'package:nabebank/service/register_service.dart';
+import 'package:nabebank/widgets/layout/multiple_form/index.dart';
 
 // ignore: constant_identifier_names
 const TEMP_OTP = "323238";

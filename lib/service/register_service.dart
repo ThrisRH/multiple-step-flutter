@@ -1,8 +1,8 @@
 // ignore_for_file: non_constant_identifier_names, no_leading_underscores_for_local_identifiers
 
 import 'package:dio/dio.dart';
-import 'package:test/constant/api.dart';
-import 'package:test/model/id_card_model.dart';
+import 'package:nabebank/constant/api.dart';
+import 'package:nabebank/model/id_card_model.dart';
 
 class UserService {
   final dio = Dio();

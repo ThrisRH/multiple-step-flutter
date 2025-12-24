@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:test/controller/ocr_controller.dart';
-import 'package:test/controller/otp_controller.dart';
-import 'package:test/service/register_service.dart';
-import 'package:test/widgets/layout/multiple_form/index.dart';
+import 'package:nabebank/controller/ocr_controller.dart';
+import 'package:nabebank/controller/otp_controller.dart';
+import 'package:nabebank/service/register_service.dart';
+import 'package:nabebank/widgets/layout/multiple_form/index.dart';
 
 class RegisterStepController extends GetxController {
   final ImagePicker picker = ImagePicker();

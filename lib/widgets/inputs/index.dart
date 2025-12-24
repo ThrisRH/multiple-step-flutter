@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:test/core/theme/colors.dart';
+import 'package:nabebank/core/theme/colors.dart';
 
 abstract class BaseInput extends StatelessWidget {
   final String label;

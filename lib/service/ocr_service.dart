@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:test/model/id_card_model.dart';
+import 'package:nabebank/model/id_card_model.dart';
 
 class OcrService {
   final Dio dio = Dio();

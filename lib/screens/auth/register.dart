@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:test/controller/register_controller.dart';
-import 'package:test/core/config/register_step_config.dart';
-import 'package:test/screens/auth/widgets/register/citizen_card_step.dart';
-import 'package:test/screens/auth/widgets/register/ocr_info_step.dart';
-import 'package:test/screens/auth/widgets/register/otp_step.dart';
-import 'package:test/screens/auth/widgets/register/password_step.dart';
-import 'package:test/screens/auth/widgets/register/phone_number_step.dart';
-import 'package:test/screens/auth/widgets/register/success_step.dart';
-import 'package:test/widgets/layout/multiple_form/index.dart';
+import 'package:nabebank/controller/register_controller.dart';
+import 'package:nabebank/core/config/register_step_config.dart';
+import 'package:nabebank/screens/auth/widgets/register/citizen_card_step.dart';
+import 'package:nabebank/screens/auth/widgets/register/ocr_info_step.dart';
+import 'package:nabebank/screens/auth/widgets/register/otp_step.dart';
+import 'package:nabebank/screens/auth/widgets/register/password_step.dart';
+import 'package:nabebank/screens/auth/widgets/register/phone_number_step.dart';
+import 'package:nabebank/screens/auth/widgets/register/success_step.dart';
+import 'package:nabebank/widgets/layout/multiple_form/index.dart';
 
 class Register extends StatelessWidget {
   Register({super.key});

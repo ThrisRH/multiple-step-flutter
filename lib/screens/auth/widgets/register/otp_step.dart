@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:test/controller/otp_controller.dart';
-import 'package:test/controller/register_controller.dart';
-import 'package:test/core/theme/colors.dart';
-import 'package:test/widgets/common/error_message.dart';
-import 'package:test/widgets/inputs/pin_input.dart';
+import 'package:nabebank/controller/otp_controller.dart';
+import 'package:nabebank/controller/register_controller.dart';
+import 'package:nabebank/core/theme/colors.dart';
+import 'package:nabebank/widgets/common/error_message.dart';
+import 'package:nabebank/widgets/inputs/pin_input.dart';
 
 class OTPStep extends StatelessWidget {
   OTPStep({super.key});

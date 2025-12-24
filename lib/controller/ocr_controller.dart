@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:test/model/id_card_model.dart';
-import 'package:test/service/ocr_service.dart';
+import 'package:nabebank/model/id_card_model.dart';
+import 'package:nabebank/service/ocr_service.dart';
 
 class OCRScannerController extends GetxController {
   final ImagePicker picker = ImagePicker();

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test/widgets/buttons/index.dart';
+import 'package:nabebank/widgets/buttons/index.dart';
 
 class ActionWrapper extends StatelessWidget {
   final VoidCallback onBack;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:test/controller/otp_controller.dart';
-import 'package:test/core/theme/colors.dart';
+import 'package:nabebank/controller/otp_controller.dart';
+import 'package:nabebank/core/theme/colors.dart';
 
 class OtpInput extends StatelessWidget {
   OtpInput({super.key});

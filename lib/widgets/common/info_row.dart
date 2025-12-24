@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test/core/theme/colors.dart';
+import 'package:nabebank/core/theme/colors.dart';
 
 class InfoRow extends StatelessWidget {
   final String label, value;

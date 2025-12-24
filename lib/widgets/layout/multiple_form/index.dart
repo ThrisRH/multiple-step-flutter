@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:test/controller/register_controller.dart';
-import 'package:test/core/config/register_step_config.dart';
-import 'package:test/core/theme/colors.dart';
-import 'package:test/widgets/layout/multiple_form/header.dart';
+import 'package:nabebank/controller/register_controller.dart';
+import 'package:nabebank/core/config/register_step_config.dart';
+import 'package:nabebank/core/theme/colors.dart';
+import 'package:nabebank/widgets/layout/multiple_form/header.dart';
 
 class LoadingController extends GetxController {
   final isLoading = false.obs;

@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:test/controller/ocr_controller.dart';
-import 'package:test/controller/register_controller.dart';
-import 'package:test/core/theme/colors.dart';
-import 'package:test/widgets/common/error_message.dart';
-import 'package:test/widgets/layout/multiple_form/action.dart';
+import 'package:nabebank/controller/ocr_controller.dart';
+import 'package:nabebank/controller/register_controller.dart';
+import 'package:nabebank/core/theme/colors.dart';
+import 'package:nabebank/widgets/common/error_message.dart';
+import 'package:nabebank/widgets/layout/multiple_form/action.dart';
 
 // ignore: constant_identifier_names
 const ID_CARD_RULE = [

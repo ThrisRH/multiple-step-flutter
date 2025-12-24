@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:test/controller/register_controller.dart';
-import 'package:test/core/theme/colors.dart';
-import 'package:test/screens/manager/permission_manager.dart';
-import 'package:test/widgets/buttons/index.dart';
-import 'package:test/widgets/common/error_message.dart';
-import 'package:test/widgets/inputs/index.dart';
+import 'package:nabebank/controller/register_controller.dart';
+import 'package:nabebank/core/theme/colors.dart';
+import 'package:nabebank/screens/manager/permission_manager.dart';
+import 'package:nabebank/widgets/buttons/index.dart';
+import 'package:nabebank/widgets/common/error_message.dart';
+import 'package:nabebank/widgets/inputs/index.dart';
 
 class PhoneNumberStep extends StatelessWidget {
   final Function(String) phoneOnChanged;
